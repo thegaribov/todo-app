@@ -38,8 +38,8 @@ public class TodoListItemController : ControllerBase
             Content = dto.Content,
             IsCompleted = false,
             IsStarred = false,
+            TodoListId = dto.TodoListId,
             Order = 1,
-            //TodoListId
         };
 
 
