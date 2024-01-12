@@ -1,4 +1,6 @@
-﻿namespace TodoListApp.Persistance.Entities
+﻿using TodoListApp.Persistance.Entities.Enums;
+
+namespace TodoListApp.Persistance.Entities
 {
     public class User
     {
@@ -9,6 +11,7 @@
         public string Password { get; set; }
         public bool IsActivated { get; set; }
         public DateTime ActivationExpireDate { get; set; }
+        public Role Role { get; set; }
 
         public ICollection<TodoList> TodoLists { get; set; }
     }
