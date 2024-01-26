@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Pustok.Helpers.Paging;
 using TodoListApp.Persistance;
 using TodoListApp.Persistance.Entities;
 using TodoListApp.Services;
@@ -24,17 +23,11 @@ public class TodoListController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllAsync([FromQuery] QueryParams queryParams)
+    public async Task<IActionResult> GetAllAsync()
     {
-        var todoListsQuery = _dbContext.TodoLists
-            .AsNoTracking()
-            .AsQueryable();
+        var todoLists = await _dbContext.TodoLists.ToListAsync();
 
-        var paginator = new Paginator<TodoList>(todoListsQuery, queryParams.Page, queryParams.PageSize);
-
-        HttpContext.Response.Headers.Add("X-Pagination", paginator.ToString());
-
-        return Ok(await paginator.QuerySet.ToListAsync());
+        return Ok(todoLists);
     }
 
     [HttpGet("{id}")]
