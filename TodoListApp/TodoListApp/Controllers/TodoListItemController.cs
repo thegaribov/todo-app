@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TodoListApp.Dtos;
@@ -10,7 +9,6 @@ namespace TodoListApp.Controllers;
 
 [ApiController]
 [Route("todo-list-items")]
-[Authorize]
 public class TodoListItemController : ControllerBase
 {
     private readonly TodoListAppDbContext _dbContext;

@@ -99,9 +99,6 @@ namespace TodoListApp.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("text");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Surname")
                         .HasColumnType("text");
 

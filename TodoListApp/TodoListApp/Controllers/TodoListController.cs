@@ -1,25 +1,20 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TodoListApp.Persistance;
 using TodoListApp.Persistance.Entities;
-using TodoListApp.Services;
 
 namespace TodoListApp.Controllers;
 
 [Route("api/todo-lists")]
 [ApiController]
-[Authorize]
 public class TodoListController : ControllerBase
 {
     private readonly TodoListAppDbContext _dbContext;
-    private readonly IUserService _userService;
 
-    public TodoListController(TodoListAppDbContext dbContext, IUserService userService)
+    public TodoListController(TodoListAppDbContext dbContext)
     {
         _dbContext = dbContext;
-        _userService = userService;
     }
 
     [HttpGet]
@@ -48,7 +43,7 @@ public class TodoListController : ControllerBase
         var todoList = new TodoList
         {
             Name = name,
-            UserId = _userService.CurrentUser.Id,
+            UserId = 1,
         };
 
         await _dbContext.TodoLists.AddAsync(todoList);

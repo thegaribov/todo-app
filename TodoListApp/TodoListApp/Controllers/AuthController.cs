@@ -6,7 +6,6 @@ using TodoListApp.Configs;
 using TodoListApp.Dtos;
 using TodoListApp.Persistance;
 using TodoListApp.Persistance.Entities;
-using TodoListApp.Persistance.Entities.Enums;
 using TodoListApp.Services;
 
 namespace TodoListApp.Controllers;
@@ -17,19 +16,17 @@ public class AuthController : ControllerBase
 {
     private readonly TodoListAppDbContext _dbContext;
     private readonly IEmailService _emailService;
-    private readonly ITokenService _tokenService;
+
 
     public AuthController(
         TodoListAppDbContext dbContext,
-        IEmailService emailService,
-        ITokenService tokenService)
+        IEmailService emailService)
     {
         _dbContext = dbContext;
         _emailService = emailService;
-        _tokenService = tokenService;
     }
 
-    [HttpPost("login")]
+    [HttpPost]
     public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
     {
         if (!ModelState.IsValid)
@@ -52,15 +49,8 @@ public class AuthController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        if (!user.IsActivated)
-        {
-            ModelState.AddModelError("*", "Account isn't activated yet");
-        }
 
-
-        var jwtToken = _tokenService.GenerateToken(user);
-
-        return Ok(jwtToken);
+        return Ok(string.Empty);
     }
 
 
@@ -71,7 +61,7 @@ public class AuthController : ControllerBase
         {
             return BadRequest(ModelState);
         }
-        
+
         if (await _dbContext.Users.AnyAsync(u => u.Email == registerDto.Email))
         {
             ModelState.AddModelError("Email", "Email is already used");
@@ -88,7 +78,6 @@ public class AuthController : ControllerBase
             Email = registerDto.Email,
             Password = hashedPass,
             ActivationExpireDate = DateTime.UtcNow.AddHours(2),
-            Role = Role.User
         };
 
         _dbContext.Users.Add(user);
