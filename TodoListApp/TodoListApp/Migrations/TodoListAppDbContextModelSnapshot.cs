@@ -29,9 +29,6 @@ namespace TodoListApp.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
@@ -92,14 +89,6 @@ namespace TodoListApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Mahmood",
-                            Surname = "Garibov"
-                        });
                 });
 
             modelBuilder.Entity("TodoListApp.Persistance.Entities.TodoList", b =>
